@@ -2,6 +2,8 @@ package com.epam.cryptoinvestment.exceptions;
 
 import java.time.DateTimeException;
 import java.time.ZonedDateTime;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,57 +18,79 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+  private ResponseEntity<Object> toResponse(ApiError apiError, Exception ex,
+                                            HttpHeaders headers, WebRequest request
+                                           ) {
+    return new ResponseEntity<>(apiError, headers, apiError.getStatus());
+  }
+
   @ExceptionHandler(value = {NumberFormatException.class})
-  protected ApiError handleNumberFormatException(NumberFormatException ex, WebRequest request) {
-    return new ApiError(ZonedDateTime.now(),
+  protected ResponseEntity<Object> handleNumberFormatException(NumberFormatException ex, WebRequest request) {
+    var apiError = new ApiError(ZonedDateTime.now(),
                         false,
                         400,
                         "Bad request",
                         ex.getMessage());
+    return toResponse(apiError, ex, new HttpHeaders(), request);
   }
 
   @ExceptionHandler(value = {CryptoNotSupportedException.class})
-  protected ApiError handleCryptoNotSupportedException(CryptoNotSupportedException ex, WebRequest request) {
-    return new ApiError(ZonedDateTime.now(),
+  protected ResponseEntity<Object> handleCryptoNotSupportedException(CryptoNotSupportedException ex, WebRequest request) {
+    var apiError = new ApiError(ZonedDateTime.now(),
                         false,
                         400,
                         "Bad request",
                         ex.getMessage());
+    return toResponse(apiError, ex, new HttpHeaders(), request);
   }
 
   @ExceptionHandler(value = {DateTimeException.class})
-  protected ApiError handleDateTimeException(DateTimeException ex, WebRequest request) {
-    return new ApiError(ZonedDateTime.now(),
+  protected ResponseEntity<Object> handleDateTimeException(DateTimeException ex, WebRequest request) {
+    var apiError =  new ApiError(ZonedDateTime.now(),
                         false,
                         400,
                         "Bad request",
                         ex.getMessage());
+    return toResponse(apiError, ex, new HttpHeaders(), request);
   }
 
   @ExceptionHandler(value = {HttpMessageNotReadableException.class})
-  protected ApiError handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
-    return new ApiError(ZonedDateTime.now(),
+  protected ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
+    var apiError = new ApiError(ZonedDateTime.now(),
                         false,
                         400,
                         "Bad request",
                         ex.getMessage());
+    return toResponse(apiError, ex, new HttpHeaders(), request);
   }
 
   @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-  protected ApiError handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
-    return new ApiError(ZonedDateTime.now(),
+  protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
+    var apiError =  new ApiError(ZonedDateTime.now(),
                         false,
                         400,
                         "Bad request",
                         ex.getMessage());
+    return toResponse(apiError, ex, new HttpHeaders(), request);
   }
 
   @ExceptionHandler(value = {IncorrectDaysOrMonthsValueException.class})
-  protected ApiError handleIncorrectDaysValueException(IncorrectDaysOrMonthsValueException ex, WebRequest request) {
-    return new ApiError(ZonedDateTime.now(),
+  protected ResponseEntity<Object> handleIncorrectDaysValueException(IncorrectDaysOrMonthsValueException ex, WebRequest request) {
+    var apiError =  new ApiError(ZonedDateTime.now(),
                         false,
                         400,
                         "Bad request",
                         ex.getMessage());
+    return toResponse(apiError, ex, new HttpHeaders(), request);
+  }
+
+  @ExceptionHandler(value = {TooManyRequestsException.class})
+  protected ResponseEntity<Object> handleTooManyRequestsException(TooManyRequestsException ex, WebRequest request) {
+    var apiError = new ApiError(ZonedDateTime.now(),
+                        false,
+                        429,
+                        "Too many requests",
+                        ex.getMessage());
+    return toResponse(apiError, ex, new HttpHeaders(), request);
   }
 }

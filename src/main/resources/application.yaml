@@ -1,0 +1,15 @@
+resilience4j.ratelimiter:
+  instances:
+    cryptoService:
+      limitForPeriod: 20
+      limitRefreshPeriod: 1m
+      timeoutDuration: 2s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
