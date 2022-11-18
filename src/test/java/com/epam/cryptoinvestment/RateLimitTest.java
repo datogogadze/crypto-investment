@@ -40,7 +40,7 @@ public class RateLimitTest {
   @Test
   void testRateLimit() throws Exception {
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 20; i++) {
       this.mockMvc.perform(
               get("/api/v1/stats/normalized/last-month")
                   .contentType(MediaType.APPLICATION_JSON))

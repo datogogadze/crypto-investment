@@ -38,7 +38,7 @@ public class CryptoInvestmentController {
   @Value("${request.limit.time.minutes}")
   private Integer limitTime;
 
-  private static final String ORDER_SERVICE = "orderService";
+  private static final String CRYPTO_SERVICE = "cryptoService";
 
   public NormalizedCryptosResponse normalizedResponseFallback(Exception e) {
     throw new TooManyRequestsException(limitNumber, limitTime);
@@ -52,7 +52,7 @@ public class CryptoInvestmentController {
     throw new TooManyRequestsException(limitNumber, limitTime);
   }
 
-  @RateLimiter(name = ORDER_SERVICE, fallbackMethod = "normalizedResponseFallback")
+  @RateLimiter(name = CRYPTO_SERVICE, fallbackMethod = "normalizedResponseFallback")
   @Operation(summary = "Get normalized prices for every crypto in descending order")
   @ApiResponse(responseCode = "200", description = "success")
   @ApiResponse(responseCode = "400", description = "year or month incorrect")
@@ -62,7 +62,7 @@ public class CryptoInvestmentController {
     var monthStats = cryptoInvestment.getNormalizedPricesForMonth(month);
     return new NormalizedCryptosResponse(monthStats);
   }
-  @RateLimiter(name = ORDER_SERVICE, fallbackMethod = "cryptoStatsResponseFallback")
+  @RateLimiter(name = CRYPTO_SERVICE, fallbackMethod = "cryptoStatsResponseFallback")
   @Operation(summary = "Get stats for specific crypto (oldest/newest/min price/max price)")
   @ApiResponse(responseCode = "200", description = "success")
   @ApiResponse(responseCode = "400", description = "crypto not supported; year or month incorrect")
@@ -75,7 +75,7 @@ public class CryptoInvestmentController {
     return cryptoInvestment.getCryptoStatsForMonth(crypto, month);
   }
 
-  @RateLimiter(name = ORDER_SERVICE, fallbackMethod = "cryptoPriceResponseFallback")
+  @RateLimiter(name = CRYPTO_SERVICE, fallbackMethod = "cryptoPriceResponseFallback")
   @Operation(summary = "Gets crypto with the highest normalized range for specific day")
   @ApiResponse(responseCode = "200", description = "success")
   @ApiResponse(responseCode = "400", description = "crypto not supported; year or month incorrect")
@@ -90,7 +90,7 @@ public class CryptoInvestmentController {
     -1 for last month's stats and -6 for last 6 months' stats and use now as the start date.
   */
 
-  @RateLimiter(name = ORDER_SERVICE, fallbackMethod = "normalizedResponseFallback")
+  @RateLimiter(name = CRYPTO_SERVICE, fallbackMethod = "normalizedResponseFallback")
   @Operation(summary = "Get normalized for last month")
   @ApiResponse(responseCode = "200", description = "success")
   @ApiResponse(responseCode = "429", description = "too many requests")
@@ -101,7 +101,7 @@ public class CryptoInvestmentController {
     return new NormalizedCryptosResponse(monthStats);
   }
 
-  @RateLimiter(name = ORDER_SERVICE, fallbackMethod = "normalizedResponseFallback")
+  @RateLimiter(name = CRYPTO_SERVICE, fallbackMethod = "normalizedResponseFallback")
   @Operation(summary = "Get normalized for last 6 months")
   @ApiResponse(responseCode = "200", description = "success")
   @ApiResponse(responseCode = "429", description = "too many requests")

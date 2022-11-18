@@ -1,7 +1,7 @@
 resilience4j.ratelimiter:
   instances:
-    orderService:
-      limitForPeriod: 10
+    cryptoService:
+      limitForPeriod: 20
       limitRefreshPeriod: 1m
       timeoutDuration: 2s
 
