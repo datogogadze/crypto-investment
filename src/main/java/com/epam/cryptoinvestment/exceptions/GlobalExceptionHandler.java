@@ -69,4 +69,13 @@ public class GlobalExceptionHandler {
                         "Bad request",
                         ex.getMessage());
   }
+
+  @ExceptionHandler(value = {TooManyRequestsException.class})
+  protected ApiError handleTooManyRequestsException(TooManyRequestsException ex, WebRequest request) {
+    return new ApiError(ZonedDateTime.now(),
+                        false,
+                        429,
+                        "Too many requests",
+                        ex.getMessage());
+  }
 }
