@@ -28,6 +28,11 @@
     
     quering database will give us more flexibility and better performance.
 
+# Rate limit
+
+    All endpoints are secured with rate limit of 10 requests per minure (arbitrarily chosen)
+    can be changed from properties (the code could be placed in a better place then controller)
+
 # Open for extension
 
     If any new crypto appears in any files, the entry for it will be created in the database
