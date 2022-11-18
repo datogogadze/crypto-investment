@@ -4,6 +4,8 @@
         
     docker container on 8081:8080 as well as the postgres on 5433:5432 with docker-compose.
 
+    It can be explicitly run with: docker-compose up -d
+
     To run tests: - ./mvnw test.
 
     Flyway is used for migrations.
