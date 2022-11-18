@@ -34,17 +34,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @WebAppConfiguration
 @SpringBootTest
 public class RateLimitTest {
+  @Autowired
   MockMvc mockMvc;
-
-  @Autowired
-  MockHttpSession session;
-  @Autowired
-  private WebApplicationContext webApplicationContext;
-
-  @Before
-  public void setUp() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-  }
 
   @Test
   void testRateLimit() throws Exception {

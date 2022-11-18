@@ -31,7 +31,7 @@
 # Rate limit
 
     All endpoints are secured with rate limit of 10 requests per minure (arbitrarily chosen)
-    can be changed from properties (the code could be placed in a better place then controller)
+    can be changed from properties
 
 # Open for extension
 
